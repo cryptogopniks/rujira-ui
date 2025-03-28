@@ -1,0 +1,778 @@
+schema {
+  subscription: RootSubscriptionType
+  query: RootQueryType
+}
+
+type RootQueryType {
+  node(id: ID!): Node
+
+  """
+  Fetch multiple nodes by their global unique identifiers.
+  Useful for batch fetching objects in Relay.
+  """
+  nodes(
+    """
+    A list of global unique identifiers of the objects to fetch.
+    Each ID must be Relay-compatible.
+    """
+    ids: [ID!]!
+  ): [Node!]!
+
+  "THORChain related queries"
+  thorchain: Thorchain
+
+  "Rujira related queries"
+  rujira: Rujira
+
+  "Developer-related CosmWasm queries"
+  developer: Developer
+}
+
+interface Node {
+  """
+  The globally unique identifier for this object.
+    This ID is Relay-compatible and can be used to refetch the object.
+  """
+  id: ID!
+}
+
+type RootSubscriptionType {
+  "Subscribes to updates for the given Node ID"
+  node(id: ID!): Node
+
+  "Subscribes to new Edges on a connection,"
+  edge(
+    """
+    The ID of the Edge Node, omitting the ID element, eg
+
+    base64(FinTrade:{address})
+    """
+    prefix: String!
+  ): NodeEdge
+}
+
+type NodeEdge {
+  cursor: String
+  node: Node
+}
+
+"A staking_pool represents the configuration about a rujira-staking contract"
+type StakingPool implements Node {
+  "The ID of an object"
+  id: ID!
+
+  address: String!
+
+  bondAsset: Asset!
+
+  revenueAsset: Asset!
+
+  revenueConverter: RevenueConverterType!
+
+  status: StakingStatus
+
+  summary(resolution: Int!): [Summary!]!
+}
+
+"A staking_status represents current status about the rujira-staking contract"
+type StakingStatus {
+  "The amount of [bond_denom] bonded in Accounts"
+  accountBond: Bigint!
+
+  "The total amount of [revenue_denom] available for Account staking to claim"
+  accountRevenue: Bigint!
+
+  "The total shares issued for the liquid bonded tokens"
+  liquidBondShares: Bigint!
+
+  "The total size of the Share Pool of liquid bonded tokens"
+  liquidBondSize: Bigint!
+
+  "The amount of [revenue_denom] pending distribution"
+  pendingRevenue: Bigint!
+}
+
+"A staking_account represents data about account address related to the staking pool"
+type StakingAccount {
+  pool: StakingPool!
+
+  account: Address!
+
+  "The balance of bonded token that has been deposited by the account"
+  bonded: Balance!
+
+  "The balance of pending revenue earned and still not claimed by this account"
+  pendingRevenue: Balance!
+}
+
+"A summary represents apr and revenue earned calculated on a defined resolution"
+type Summary {
+  "list of 10 apr points equally distributed based on the defined resolution. 12 decimals."
+  apr: [Bigint!]!
+
+  "The total amount of [revenue_denom] earned by the stakers in a defined resolution"
+  revenueEarned: Bigint!
+}
+
+type RevenueConverterType {
+  address: Address!
+  executeMsg: String!
+  limit: Bigint!
+}
+
+"A fin_pair represents informations about a specific rujira-fin contract"
+type FinPair implements Node {
+  "The ID of an object"
+  id: ID!
+
+  address: Address!
+
+  assetBase: Asset!
+
+  assetQuote: Asset!
+
+  oracleBase: Pool!
+
+  oracleQuote: Pool!
+
+  status: PairStatus!
+
+  tick: Bigint!
+
+  feeTaker: Bigint!
+
+  feeMaker: Bigint!
+
+  feeAddress: Address!
+
+  book: FinBook!
+
+  summary: FinPairSummary
+
+  candles(first: Int, last: Int, after: Timestamp!, before: Timestamp!, resolution: String!): FinCandleConnection
+
+  trades(after: String, first: Int, before: String, last: Int): FinTradeConnection
+}
+
+type FinTradeConnection {
+  pageInfo: PageInfo!
+  edges: [FinTradeEdge]
+}
+
+type FinCandleConnection {
+  pageInfo: PageInfo!
+  edges: [FinCandleEdge]
+}
+
+type FinOrderConnection {
+  pageInfo: PageInfo!
+  edges: [FinOrderEdge]
+}
+
+type FinAccountActionConnection {
+  pageInfo: PageInfo!
+  edges: [FinAccountActionEdge]
+}
+
+"Orderbook of a specific Fin pair"
+type FinBook implements Node {
+  "The ID of an object"
+  id: ID!
+
+  asks: [FinBookEntry!]!
+
+  bids: [FinBookEntry!]!
+}
+
+"single entry of an orderbook"
+type FinBookEntry {
+  price: Bigint!
+
+  total: Bigint!
+
+  side: String!
+
+  "Value of the entry, calculated as total * price or total \/ price based on side."
+  value: Bigint!
+}
+
+"Collections of data of an account across all the fin pairs"
+type FinAccount {
+  orders(after: String, first: Int, before: String, last: Int): FinOrderConnection
+  history(after: String, first: Int, before: String, last: Int): FinAccountActionConnection
+}
+
+"Single order of an account on a fin pair"
+type FinOrder implements Node {
+  "The ID of an object"
+  id: ID!
+
+  pair: Address!
+
+  owner: Address!
+
+  side: String!
+
+  rate: Bigint!
+
+  updatedAt: Timestamp!
+
+  offer: Bigint!
+
+  remaining: Bigint!
+
+  filled: Bigint!
+
+  type: String!
+
+  deviation: Bigint
+}
+
+"Single trade executed by on a fin pair"
+type FinTrade implements Node {
+  "The ID of an object"
+  id: ID!
+
+  height: Bigint!
+
+  txIdx: Bigint!
+
+  idx: Bigint!
+
+  contract: Address!
+
+  txhash: String!
+
+  quoteAmount: Bigint!
+
+  baseAmount: Bigint!
+
+  price: Bigint!
+
+  type: String!
+
+  protocol: String!
+
+  timestamp: Timestamp!
+
+  assetBase: Asset!
+
+  assetQuote: Asset!
+}
+
+"Single action executed by an account on a fin pair"
+type FinAccountAction {
+  type: String
+  height: Bigint
+  txIdx: Bigint
+  idx: Bigint
+  contract: Address
+  txhash: String
+  quoteAmount: Bigint
+  baseAmount: Bigint
+  price: Bigint
+  protocol: String
+  timestamp: Timestamp
+  assetBase: Asset
+  assetQuote: Asset
+}
+
+"Summary of the last trading data for a specific pair, including high, low, change, and volume."
+type FinPairSummary {
+  last: Bigint!
+  lastUsd: Bigint!
+  high: Bigint!
+  low: Bigint!
+  change: Bigint!
+  volume: Layer1Balance!
+}
+
+"Represents a candlestick chart data point for a specific time period, including high, low, open, close, volume, and timestamp."
+type FinCandle implements Node {
+  "The ID of an object"
+  id: ID!
+
+  resolution: String!
+
+  high: Bigint!
+
+  low: Bigint!
+
+  open: Bigint!
+
+  close: Bigint!
+
+  volume: Bigint!
+
+  bin: Timestamp!
+}
+
+type PairStatus {
+  status: String!
+  price: Bigint
+}
+
+"A merge_pool represents the configuration about a rujira-merge contract"
+type MergePool implements Node {
+  "The ID of an object"
+  id: ID!
+
+  address: String!
+
+  mergeAsset: Asset!
+
+  mergeSupply: Bigint!
+
+  rujiAsset: Asset!
+
+  rujiAllocation: Bigint!
+
+  decayStartsAt: Timestamp!
+
+  decayEndsAt: Timestamp!
+
+  "Current Rate with 12 Decimals place"
+  currentRate: Bigint!
+
+  "Start Rate with 12 Decimals place"
+  startRate: Bigint!
+
+  status: MergeStatus
+}
+
+"A merge_status represents current status about the rujira-merge contract"
+type MergeStatus {
+  "The total amount of merge token deposited"
+  merged: Bigint!
+
+  "The total amount of shares issued for the merge pool"
+  shares: Bigint!
+
+  "The total amount of ruji token allocated to the merge pool"
+  size: Bigint!
+
+  "Current Rate with 12 Decimals place"
+  currentRate: Bigint!
+}
+
+"A merge_accounts represents aggregate data about account address related to the merge pools"
+type MergeStats {
+  accounts: [MergeAccount!]
+
+  "The total value of deposits at the time of deposit"
+  depositSize: Balance!
+
+  "The total amount of merge token that all `shares` are worth"
+  totalSize: Balance!
+}
+
+"A merge_account represents data about account address related to the merge pool"
+type MergeAccount {
+  pool: MergePool!
+
+  "The amount of merge token that has been deposited by the account"
+  merged: Balance!
+
+  "The amount of shares owned by this account"
+  shares: Bigint!
+
+  "The amount of ruji token that `shares` are worth"
+  size: Balance!
+
+  "The current conversion rate for merge token to ruji token, given current pool ownership"
+  rate: Bigint!
+}
+
+"A rujira represents data about rujira products"
+type Rujira {
+  merge: [MergePool!]!
+  fin: [FinPair!]!
+  staking: [StakingPool!]!
+  bank: Bank!
+}
+
+"""
+The `Timestamp` scalar type represents a date and time in the UTC
+timezone. The DateTime appears in a JSON response as an ISO8601 formatted
+string, including UTC timezone ("Z"). The parsed date and time string will
+be converted to UTC and any UTC offset other than 0 will be rejected.
+"""
+scalar Timestamp
+
+"A large integer"
+scalar Bigint
+
+"A string representation of a THORChain compatible asset"
+scalar AssetString
+
+"An address associated with a blockchain account\/public key"
+scalar Address
+
+type Asset implements Node {
+  "The ID of an object"
+  id: ID!
+
+  asset: AssetString!
+
+  type: AssetType!
+
+  chain: Chain!
+
+  metadata: Metadata!
+
+  price: Price
+
+  "Explicit Layer 1 and Secured variants of a Layer 1 asset"
+  variants: AssetVariants!
+}
+
+type Denom {
+  denom: String!
+}
+
+"Metadata for a token"
+type Metadata {
+  symbol: String!
+  decimals: Int!
+}
+
+"Price data for a token"
+type Price {
+  "Current price, 12 decimal places"
+  current: Bigint
+
+  changeDay: Float
+}
+
+type AssetVariants {
+  "The THORChain layer 1 asset string (eg BTC.BTC, THOR.RUNE, GAIA.ATOM)"
+  layer1: Asset
+
+  "The THORChain secured asset string (eg BTC-BTC, GAIA-ATOM)"
+  secured: Asset
+
+  "The Cosmos SDK x\/bank token denom string (eg btc-btc, rune, uatom)"
+  native: Denom
+}
+
+enum AssetType {
+  LAYER_1
+  SECURED
+  NATIVE
+}
+
+type Thorchain {
+  inboundAddresses: [InboundAddress!]!
+  quote(
+    fromAsset: AssetString!, toAsset: AssetString!, amount: Bigint!, streamingInterval: Int, streamingQuantity: Bigint, destination: Address, toleranceBps: Int, refundAddress: Address, affiliate: [String], affiliateBps: [Int], height: String
+  ): Quote
+  pool(asset: AssetString!): Pool
+  pools: [Pool!]!
+  rune: Asset
+  summary: ThorchainSummary
+  txIn(hash: String!): TxIn
+}
+
+type Quote {
+  assetIn: Layer1Balance!
+  inboundAddress: Address!
+  inboundConfirmationBlocks: Int!
+  inboundConfirmationSeconds: Int!
+  outboundDelayBlocks: Int!
+  outboundDelaySeconds: Int!
+  fees: Fees!
+  router: Address
+  expiry: Timestamp!
+  warning: String!
+  notes: String!
+  dustThreshold: Bigint
+  recommendedMinAmountIn: Bigint!
+  recommendedGasRate: Bigint!
+  gasRateUnits: String!
+  memo: String!
+  expectedAmountOut: Bigint!
+  expectedAssetOut: Layer1Balance!
+  maxStreamingQuantity: Bigint!
+  streamingSwapBlocks: Int!
+  streamingSwapSeconds: Int!
+  totalSwapSeconds: Int!
+}
+
+type Fees {
+  asset: Asset!
+  affiliate: String!
+  outbound: Bigint!
+  liquidity: Bigint!
+  total: Bigint!
+  slippageBps: Int!
+  totalBps: Int!
+}
+
+type Pool {
+  asset: Asset!
+  shortCode: String!
+  status: PoolStatus!
+  decimals: Int!
+  pendingInboundAsset: Bigint!
+  pendingInboundRune: Bigint!
+  balanceAsset: Bigint!
+  balanceRune: Bigint!
+  assetTorPrice: Bigint!
+  poolUnits: Bigint!
+  lpUnits: Bigint!
+  synthUnits: Bigint!
+  synthSupply: Bigint!
+  saversDepth: Bigint!
+  saversUnits: Bigint!
+  saversFillBps: Int!
+  saversCapacityRemaining: Bigint!
+  synthMintPaused: Boolean!
+  synthSupplyRemaining: Bigint!
+  loanCollateral: Bigint!
+  loanCollateralRemaining: Bigint!
+  loanCr: Bigint!
+  derivedDepthBps: Int!
+}
+
+enum PoolStatus {
+  UNKNOWN
+  AVAILABLE
+  STAGED
+  SUSPENDED
+}
+
+type InboundAddress {
+  chain: Chain!
+  pubKey: String
+  address: Address!
+  router: Address
+  halted: Boolean!
+  globalTradingPaused: Boolean!
+  chainTradingPaused: Boolean!
+  chainLpActionsPaused: Boolean!
+  gasRate: Bigint
+  gasRateUnits: String
+  outboundTxSize: Bigint
+  outboundFee: Bigint!
+  dustThreshold: Bigint!
+}
+
+type ThorchainSummary {
+  uniqueSwappers: Bigint
+  totalValidatorBond: Bigint
+  tvl: Bigint
+  poolsLiquidity: Bigint
+  totalPoolEarnings: Bigint
+  totalTransactions: Bigint
+  totalSwaps: Bigint
+  dailySwapVolume: Bigint
+  totalSwapVolume: Bigint
+  affiliateVolume: Bigint
+  affiliateTransactions: Bigint
+  runningSince: Bigint
+  blockchainIntegrated: Bigint
+}
+
+type TxId {
+  blockHeight: Bigint
+  txIndex: Bigint
+}
+
+type TxIn {
+  observedTx: ObservedTx!
+  finalizedBlock: Block!
+}
+
+type ObservedTx {
+  tx: Tx
+  status: String
+}
+
+type Tx {
+  id: String
+  chain: Chain
+  fromAddress: Address
+  toAddress: Address
+  coins: [Balance!]!
+  gas: [Balance!]!
+  memo: String
+}
+
+type Block {
+  id: BlockId!
+  header: BlockHeader!
+  beginBlockEvents: [BlockEvent!]!
+  endBlockEvents: [BlockEvent!]!
+}
+
+type BlockId {
+  hash: String!
+}
+
+type BlockHeader {
+  chainId: String!
+  height: Bigint!
+  time: Timestamp!
+}
+
+type BlockEvent {
+  type: String!
+  attributes: [BlockEventAttribute!]!
+}
+
+type BlockEventAttribute {
+  key: String!
+  value: String!
+}
+
+"A merge_pool represents the configuration about a rujira-merge contract"
+type Developer {
+  codes: [Code!]!
+}
+
+"A stored wasm binary"
+type Code implements Node {
+  "The ID of an object"
+  id: ID!
+
+  checksum: String!
+
+  creator: Address!
+
+  contracts: [Contract!]!
+}
+
+type Contract implements Node {
+  "The ID of an object"
+  id: ID!
+
+  address: Address
+
+  info: ContractInfo
+
+  "JSON encoded response to a { config: {} } request"
+  config: String
+
+  querySmart(query: String): String
+
+  state: [StateEntry]!
+}
+
+type ContractInfo {
+  codeId: Int!
+  creator: Address!
+  admin: Address
+  label: String!
+  created: TxId
+  ibcPortId: String
+  extension: String
+}
+
+type StateEntry {
+  key: String
+  keyAscii: String
+  value: String
+}
+
+"A root account represents a single address. This can have multiple layer 1 accounts based on the type of address"
+enum Chain {
+  AVAX
+  BASE
+  BTC
+  BCH
+  BSC
+  DOGE
+  ETH
+  GAIA
+  KUJI
+  LTC
+  THOR
+}
+
+"A rujira represents data about rujira products"
+type Bank {
+  supply: [BankSupply!]!
+}
+
+type BankSupply implements Node {
+  "The ID of an object"
+  id: ID!
+
+  balance: Balance!
+}
+
+"The balance of a token or coin on a layer 1 chain"
+type Layer1Balance {
+  asset: Asset!
+  amount: Bigint!
+}
+
+"Relacement for layer_1_balance"
+type Balance {
+  asset: Asset!
+  amount: Bigint!
+}
+
+"A layer_1_account represents data about this address on the layer 1 specified"
+type Layer1Account implements Node {
+  "The ID of an object"
+  id: ID!
+
+  address: Address!
+
+  chain: Chain!
+
+  balances: [Layer1Balance!]
+
+  "A list of contract addresses for ERC-20, SPL etc token balances"
+  account: Account
+}
+
+"An account represents data about this address on THORChain and the Rujira app layer, using the mapped address from the root account when required"
+type Account implements Node {
+  "The ID of an object"
+  id: ID!
+
+  "The THORChain address for this account on the app layer"
+  address: Address!
+
+  merge: MergeStats
+
+  fin: FinAccount
+
+  staking: [StakingAccount!]
+}
+
+type PageInfo {
+  "When paginating backwards, are there more items?"
+  hasPreviousPage: Boolean!
+
+  "When paginating forwards, are there more items?"
+  hasNextPage: Boolean!
+
+  "When paginating backwards, the cursor to continue."
+  startCursor: String
+
+  "When paginating forwards, the cursor to continue."
+  endCursor: String
+}
+
+type FinAccountActionEdge {
+  node: FinAccountAction
+  cursor: String
+}
+
+type FinOrderEdge {
+  node: FinOrder
+  cursor: String
+}
+
+type FinCandleEdge {
+  node: FinCandle
+  cursor: String
+}
+
+type FinTradeEdge {
+  node: FinTrade
+  cursor: String
+}

@@ -1,0 +1,137 @@
+html {
+  box-sizing: border-box;
+  //scroll-behavior: smooth;
+}
+
+body {
+  height: 100%;
+    overflow: auto;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+.relative {
+  position: relative;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.block-img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.reset-overflow {
+  overflow: visible;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.arrow {
+  cursor: default;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important; // Fix for https://github.com/twbs/bootstrap/issues/25686
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@each $s, $bp in $sizes {
+  @media only screen and (min-width: $bp) {
+    .visually-hidden-#{$s} {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important; // Fix for https://github.com/twbs/bootstrap/issues/25686
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  }
+}
+
+@each $s, $bp in $sizes {
+  .show-#{$s} {
+    display: none;
+    @media only screen and (min-width: $bp) {
+      display: block;
+    }
+  }
+  .show-#{$s}-i {
+    display: none;
+    @media only screen and (min-width: $bp) {
+      display: inline;
+    }
+  }
+  .show-#{$s}-flex {
+    display: none;
+    @media only screen and (min-width: $bp) {
+      display: flex;
+    }
+  }
+  .show-#{$s}-iflex {
+    display: none;
+    @media only screen and (min-width: $bp) {
+      display: inline-flex;
+    }
+  }
+}
+
+.no-pointer-events {
+  pointer-events: none;
+}
+
+.no-select {
+  user-select: none;
+  cursor: default;
+}
+
+.clearfix {
+  &::after {
+    display: block;
+    clear: both;
+    content: "";
+  }
+}
+
+.transition {
+  transition: all 0.15s;
+}
+
+.nowrap {
+  white-space: nowrap;
+}

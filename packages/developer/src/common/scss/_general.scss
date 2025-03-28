@@ -1,0 +1,48 @@
+.rujira {
+  background: $black;
+  min-height: 100dvh;
+  color: $white;
+
+  &--dark {
+    background: $deepBlack;
+  }
+
+  &__main {
+    min-height: calc(100dvh - 6rem);
+    
+    @media only screen and (min-width: $large) {
+      min-height: calc(100dvh - 7rem);
+    }
+
+    &--gradient {
+      background: linear-gradient(180deg, $black 0, #0f1117 500px);
+    }
+
+    &--center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 6rem;
+      
+      @media only screen and (min-width: $large) {
+        padding-bottom: 7rem;
+      }
+    }
+  }
+
+  &__inner {
+    width: 100%;
+    max-width: 80rem;
+    margin: 0 auto;
+    position: relative;
+
+    &--pad {
+      padding: 2rem 1.5rem 6rem;
+      width: 100%;
+      
+      @media screen and (min-width: $large) {
+        padding: 5rem 2rem 6rem;
+      }
+    }
+  }
+}

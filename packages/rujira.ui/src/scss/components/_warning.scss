@@ -1,0 +1,76 @@
+.warning {
+  display: flex;
+  padding: 0.5rem;
+  border: 1px solid $grey;
+  color: $grey;
+  background-color: rgba($grey, 0.25);
+  font-size: 0.875rem;
+  line-height: 1.2em;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  word-break: break-word;
+
+  &--teal {
+    color: $teal;
+    border-color: $teal;
+    background-color: rgba($teal, 0.25);
+  }
+
+  &--orange {
+    color: $orange;
+    border-color: $orange;
+    background-color: rgba($orange, 0.25);
+  }
+
+  &--red {
+    color: $red;
+    border-color: $red;
+    background-color: rgba($red, 0.25);
+  }
+
+  &__icon, &__close, svg:first-child {
+    width: auto;
+    height: 1.25rem;
+    display: block;
+    flex-grow: 0;
+    margin-top: -0.1rem;
+
+    svg {
+      display: block;
+      width: auto;
+      height: 100%;
+    }
+  }
+  
+  &__icon, & > svg:first-child {
+    margin-right: 0.25rem;
+    flex-shrink: 0;
+  }
+  
+  &__msg {
+    display: block;
+    flex: 1;
+    text-align: left;
+  }
+
+  &--pre &__msg {
+    white-space: pre;
+  }
+
+  &__close {
+    color: inherit;
+    margin-right: 0;
+    margin-left: 0.25rem;
+    cursor: pointer;
+  }
+
+  &--sm {
+    font-size: 0.75rem;
+    padding: 0.375rem;
+    border-radius: 0.375rem;
+  }
+
+  &--sm &__icon, &--sm &__close, &--sm svg:first-child {
+    height: 1rem;
+  }
+}

@@ -1,0 +1,220 @@
+.portfolio {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $black;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $grey;
+    border-radius: 4px;
+    border: 2px solid $black;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: $primary1;
+    border-width: 1px;
+  }
+
+  &__switcher {
+    border: 0;
+    outline: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+
+    &:hover,
+    &:active,
+    &:focus {
+      outline: 0;
+      background: transparent;
+      border: 0;
+    }
+
+    position: relative;
+    font-size: 0.875rem;
+    font-family: "mono", monospace;
+    color: $grey;
+    display: inline-flex;
+    align-items: center;
+    background-color: $black;
+    border-radius: 1.5rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.15s;
+
+    &:hover {
+      color: $white;
+      background-color: $darkGrey;
+    }
+
+    nav {
+      transform-origin: center 2.25rem;
+      position: absolute;
+      left: -1rem;
+      min-width: calc(100% + 2rem);
+      top: -1rem;
+      border-radius: 1.5rem;
+      padding: 0.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      background-color: $darkGrey;
+      z-index: 5;
+      overflow: auto;
+      max-height: 23.5rem;
+      box-shadow:
+        2.8px 2.8px 2.2px rgba(0, 0, 0, 0.07),
+        6.7px 6.7px 5.3px rgba(0, 0, 0, 0.05),
+        12.5px 12.5px 10px rgba(0, 0, 0, 0.042),
+        22.3px 22.3px 17.9px rgba(0, 0, 0, 0.035),
+        41.8px 41.8px 33.4px rgba(0, 0, 0, 0.028);
+      
+      h4 {
+        color: $grey;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 0.75rem;
+        font-family: "Montserrat", Verdana, sans-serif;
+        font-size: 0.75rem;
+      }
+
+      button, a {
+        display: flex;
+        //flex-direction: column;
+        width: 100%;
+        border: 0;
+        outline: 0;
+        padding: 0;
+        background: transparent;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-family: "mono", monospace;
+        color: $grey;
+        font-weight: 400;
+        padding: 0.5rem 0;
+        transition: opacity 0.15s;
+        text-decoration: none;
+
+        &:hover,
+        &:active,
+        &:focus {
+          outline: 0;
+          background: transparent;
+          border: 0;
+        }
+
+        span {
+          display: block;
+        }
+
+        em {
+          font-style: normal;
+        }
+      }
+
+      &:has(button:hover) {
+        button:not(:hover) {
+          opacity: 0.5;
+        }
+      }
+
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    &--right nav {
+      left: auto;
+      right: -0.5rem;
+    }
+  }
+
+  &__wallet {
+    &-logo {
+      display: flex;
+      width: 10rem;
+      height: 2rem;
+      align-items: center;
+      justify-content: flex-start;
+
+      svg {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: 100%;
+      }
+    }
+
+    & > p {
+      font-size: 0.875rem;
+      line-height: 1.125rem;
+      color: $grey;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    &-links {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: auto;
+      margin-left: -0.25rem;
+      margin-right: -0.25rem;
+      margin-bottom: -0.25rem;
+
+      a {
+        display: block;
+        color: $white;
+        transition: color 0.2s;
+        padding: 0.25rem;
+
+        &:hover {
+          color: $primary1;
+        }
+      }
+
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        display: block;
+      }
+    }
+  }
+
+  &__balances {
+    .icon-denom {
+      display: block;
+      width: 2rem;
+      height: auto;
+    }
+    h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-left: 0.5rem;
+      color: $white;
+    }
+  }
+
+  &__networks {
+    display: flex;
+    align-items: center;
+
+    svg {
+      display: block;
+      width: 1.5rem;
+      height: 1.5rem;
+      flex-shrink: 0;
+
+      &:not(:first-child) {
+        margin-left: -0.25rem;
+      }
+    }
+
+  }
+}

@@ -1,0 +1,48 @@
+.pools {
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__left {
+    display: none;
+    @media screen and (min-width: 128rem) {
+      display: block;
+      width: 24rem;
+    }
+  }
+
+  &__main {
+    max-width: 80rem;
+    flex: 1;
+    @media screen and (max-width: ($large - 1px)) {
+      width: 100%;
+    }
+  }
+
+  &__positions {
+    flex-shrink: 0;
+    width: 100%;
+    
+    @media screen and (min-width: $large) {
+      padding-left: 2rem;
+      width: 24rem;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    column-gap: 1rem;
+    row-gap: 1rem;
+
+    @media screen and (min-width: $small) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (min-width: $large) {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+    }
+  }
+}

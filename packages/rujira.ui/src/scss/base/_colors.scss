@@ -1,0 +1,23 @@
+@each $l, $c in $colors {
+  .color-#{$l} {
+    color: $c;
+  }
+  .hover-#{$l} {
+    transition: color 0.1s;
+    &:hover {
+      color: $c;
+    }
+  }
+  .bg-#{$l} {
+    background-color: $c;
+  }
+  .bg-hover-#{$l} {
+    transition: background-color 0.1s;
+    &:hover {
+      background-color: $c;
+    }
+  }
+  .b-#{$l} {
+    border: 1px solid $c;
+  }
+}

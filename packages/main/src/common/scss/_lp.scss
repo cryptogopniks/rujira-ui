@@ -1,0 +1,13 @@
+.lp {
+  display: flex;
+
+  .icon-denom {
+    width: 1.5rem;
+    height: 1.5rem;
+
+    &:last-child {
+      margin-top: 0.5rem;
+      margin-left: -0.5rem;
+    }
+  }
+}

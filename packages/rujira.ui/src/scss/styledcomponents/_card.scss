@@ -1,0 +1,136 @@
+.card {
+  border-radius: 1rem;
+  background: $black;
+
+  &--shadow {
+    box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.07),
+      6.7px 6.7px 5.3px rgba(0, 0, 0, 0.05),
+      12.5px 12.5px 10px rgba(0, 0, 0, 0.042),
+      22.3px 22.3px 17.9px rgba(0, 0, 0, 0.035),
+      41.8px 41.8px 33.4px rgba(0, 0, 0, 0.028),
+      100px 100px 80px rgba(0, 0, 0, 0.02);
+  }
+
+  &--semi-transparent {
+    background: rgba($black, 0.75);
+  }
+
+  &--very-transparent {
+    background: rgba($black, 0.25);
+  }
+
+  &--transparent {
+    background: transparent;
+  }
+
+  &--blur {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+  }
+
+  &--hide-overflow {
+    overflow: hidden;
+  }
+
+  &--h-full {
+    height: 100%;
+  }
+
+  &--stretch {
+    min-height: 100%;
+  }
+
+  &--vertical-split {
+    height: 50%;
+  }
+
+  &--tabbed {
+    border-top: 0;
+    border-radius: 0 0 1rem 1rem;
+  }
+  
+
+  &--border {
+    border: 1px solid rgba($grey, 0.5);
+  }
+
+  &--border-solid {
+    border: 1px solid $grey;
+  }
+
+  &--hover-border {
+    &:hover {
+      outline: 1px solid rgba($grey, 0.5);
+    }
+  }
+}
+
+button.card {
+  width: 100%;
+  cursor: pointer;
+  border: 0;
+}
+
+a.card {
+  transition: all 0.25s;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0px 0px 0px 1px rgba($grey, 1);
+  }
+}
+
+.gradient-card-container {
+  z-index: 0;
+  position: relative;
+}
+
+.gradient-card {
+  position: relative;
+  $border: 1px;
+  background-clip: padding-box;
+  border: solid $border transparent;
+  border-radius: 1em;
+  //padding: 20px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -$border;
+    border-radius: inherit;
+    background: linear-gradient(
+      45deg,
+      rgba($grey, 0.5),
+      rgba($lightGrey, 0.1)
+    );
+  }
+
+  &--purple {
+    &:before {
+      background: linear-gradient(
+        45deg,
+        rgba($pink, 1),
+        rgba($purple, 1)
+      );
+    }
+  }
+
+  &--blue {
+    &:before {
+      background: linear-gradient(
+        45deg,
+        rgba($teal, 1),
+        rgba($blue, 1)
+      );
+    }
+  }
+}
+
+a.gradient-card {
+  text-decoration: none;
+}

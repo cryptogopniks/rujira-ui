@@ -1,0 +1,106 @@
+.select-container {
+  position: relative;
+
+  // default font
+  font-family: "Barlow Semi Condensed", Verdana, sans-serif;
+  font-size: 1rem;
+  line-height: 1.25em;
+  color: $white;
+
+  & > .select {
+    appearance: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: $darkGrey;
+    border-radius: 0.375rem;
+    padding: 0 2.5rem 0 0.75rem;
+    border: 1px solid rgba($grey, 0.5);
+    color: inherit;
+    line-height: 1.125em;
+    min-height: 2.875rem;
+
+    &--nolabel {
+      padding: 0 2.5rem 0 0.75rem;
+    }
+
+    &--md {
+      min-height: 2.5rem;
+    }
+  }
+
+  & > .select--sm {
+    font-size: 0.875rem;
+    min-height: 2rem;
+    //padding: 0 2.5rem 0 0.75rem;
+  }
+
+  &:has(> .label) {
+    .select {
+      padding: 1.1875rem 0.75rem 0.375rem;
+    }
+  }
+
+  & > .select:focus {
+    border: 1px solid rgba($primary1, 0.5);
+    outline: none;
+    box-shadow: 0 0 0 .25rem rgba($primary1,.25);
+  }
+  
+  & > .select--white:focus {
+    border: 1px solid rgba($white, 0.75);
+    box-shadow: 0 0 0 .25rem rgba($grey,.25);
+  }
+
+  & > .select:not(:focus):not(:disabled):hover {
+    border: 1px solid rgba($grey, 0.75);
+    box-shadow: 0 0 0 .25rem rgba($grey,.25);
+  }
+
+  & > .label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    pointer-events: none;
+    transform-origin: 0 0;
+    padding: 0.75rem 0 0 0.75rem;
+    color: $grey;
+    transform: scale(.85) translateY(-.5rem) translateX(.15rem);
+    font-weight: 500;
+  }
+
+  & > .arrow {
+    //width: 1rem;
+    width: 1.5rem;
+    height: auto;
+    display: block;
+    position: absolute;
+    //right: 0.75rem;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $grey;
+    pointer-events: none;
+  }
+  
+  & > .select:not(:disabled):hover ~ .arrow {
+    color: $white;
+  }
+
+  & > .select:not(:disabled):focus ~ .arrow {
+    color: $primary1;
+  }
+  
+  & > .select--white:not(:disabled):focus ~ .arrow {
+    color: $white;
+  }
+
+  & > .select--sm ~ .arrow {
+    width: 1rem;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}

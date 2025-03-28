@@ -1,0 +1,28 @@
+.trade {
+  &__graph {
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    
+    @media screen and (min-width: $large) {
+      border-radius: 0 0 0.5rem 1.5rem;
+    }
+
+    &-loader {
+      display: block;
+      width: 3rem;
+      height: 3rem;
+    }
+
+    &-controls {
+      width: 100%;
+      padding: 0 1rem;
+      margin: 0.5rem 0;
+    }
+
+    &-tv {
+      flex: 1;
+    }
+  }
+}

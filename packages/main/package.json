@@ -1,0 +1,79 @@
+{
+  "name": "rujira-main",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "relay": "relay-compiler"
+  },
+  "dependencies": {
+    "@absinthe/socket": "^0.2.1",
+    "@absinthe/socket-relay": "^0.2.1",
+    "@cosmjs/math": "^0.32.4",
+    "@keplr-wallet/types": "^0.12.151",
+    "@rollup/plugin-inject": "^5.0.5",
+    "buffer": "^6.0.3",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "ethers": "^6.13.4",
+    "lightweight-charts": "^4.2.2",
+    "motion": "^11.12.0",
+    "phoenix": "^1.7.19",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-helmet": "^6.1.0",
+    "react-hot-toast": "^2.4.1",
+    "react-number-format": "^5.4.2",
+    "react-relay": "^18.2.0",
+    "react-router-dom": "^6.26.2",
+    "react-tooltip": "^5.28.0",
+    "recharts": "^2.13.3",
+    "relay-runtime": "^18.2.0",
+    "rujira.js": "workspace:*",
+    "rujira.ui": "workspace:*",
+    "vaul": "^1.1.1",
+    "vite-plugin-relay": "^2.1.0"
+  },
+  "devDependencies": {
+    "@babel/runtime": "^7.26.7",
+    "@types/absinthe__socket": "^0.2.6",
+    "@types/phoenix": "^1.6.6",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-helmet": "^6.1.11",
+    "@types/react-relay": "^16.0.6",
+    "@types/relay-runtime": "^18.1.1",
+    "@typescript-eslint/eslint-plugin": "^8.2.0",
+    "@typescript-eslint/parser": "^8.2.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "graphql": "^16.9.0",
+    "relay-compiler": "^18.2.0",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "sass": "^1.77.8",
+    "typescript": "^5.5.4",
+    "vite": "^5.2.0"
+  },
+  "relay": {
+    "src": "./src",
+    "language": "typescript",
+    "schema": "./data/schema.graphql",
+    "eagerEsModules": true,
+    "customScalarTypes": {
+      "Address": "string",
+      "AssetString": "string",
+      "Bigint": "string"
+    },
+    "excludes": [
+      "**/node_modules/**",
+      "**/__mocks__/**",
+      "**/__generated__/**"
+    ]
+  }
+}

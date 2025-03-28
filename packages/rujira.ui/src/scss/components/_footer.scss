@@ -1,0 +1,31 @@
+.rujira {
+  &__footer {
+    background: $deepBlack;
+    padding: 3rem 2rem;
+    position: relative;
+    z-index: 1;
+
+    nav {
+      margin-top: 0.5rem;
+
+      a {
+        font-size: 0.875rem;
+        line-height: 1rem;
+        text-decoration: none;
+        color: $grey;
+        transition: color 0.2s;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        display: inline-block;
+
+        &:not([href]) {
+          opacity: 0.5;
+        }
+
+        &[href]:hover {
+          color: $white;
+        }
+      }
+    }
+  }
+}

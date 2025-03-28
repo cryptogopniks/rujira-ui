@@ -1,0 +1,274 @@
+.trade {
+  &__book {
+    background-color: $black;
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.25rem;
+    border-radius: 0 0 1.5rem 1.5rem;
+    padding: 0.75rem 0.75rem 0;
+    
+    @media screen and (min-width: $large) {
+      border-radius: 1.5rem 0 0 0.5rem;
+    }
+    
+    &-filter {
+      align-self: center;
+      margin-left: auto;
+      margin-right: 0.5rem;
+      display: none;
+
+      svg {
+        &:nth-child(2) {
+          margin: 0 0.25rem;
+        }
+      }
+
+      @media screen and (min-width: $large) {
+        display: block;
+      }
+    }
+    
+    &-overflow {
+      flex-grow: 1;
+      height: 0;
+      margin: 0 0.5rem;
+      display: flex;
+      font-weight: 400;
+      font-family: "mono", monospace;
+      overflow: hidden;
+      
+      @media screen and (min-width: $large) {
+        padding-right: 0.5rem;
+        overflow: auto;
+        flex-direction: column;
+        margin: 0.5rem 0 0.5rem 0.5rem;
+      }
+    }
+    
+    &-table {
+      flex-grow: 1;
+      height: 0;
+      display: flex;
+      //overflow: auto;
+      flex-direction: column;
+      font-weight: 400;
+      margin: 0.75rem 0.5rem 0;
+      
+      @media screen and (min-width: $large) {
+        margin: 1.5rem 0 0.5rem 0.5rem;
+      }
+      
+      .table {
+        font-family: "mono", monospace;
+        
+        th {
+          line-height: 1rem;
+          
+          @media screen and (max-width: ($large - 1px)) {
+            font-size: 0.75rem;
+            padding-bottom: 0.5625rem;
+          }
+        }
+        
+        tbody {
+          line-height: 1em;
+          font-size: 0.75rem;
+          color: $lightGrey;
+          
+          @media screen and (max-width: ($large - 1px)) {
+            td {
+              padding-top: 0.125rem;
+              padding-bottom: 0.125rem;
+            }
+          }
+        }
+      }
+    }
+    
+    &-header {
+      margin: 0.75rem 0.5rem 0;
+      display: flex;
+      align-items: flex-end;
+      font-weight: 500;
+      font-family: "Barlow Semi Condensed", Verdana, sans-serif;
+      
+      @media screen and (min-width: $large) {
+        margin: 1.5rem 0.5rem 0;
+      }
+
+      div {
+        flex: 1 1 0;
+        color: $grey;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        padding-top: 0;
+        //padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba($grey, 0.15);
+        padding-bottom: 0.5rem;
+        
+        @media screen and (min-width: $large) {
+          padding-bottom: 0.6875rem; // -1px to match sticky header of table
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    &-row {
+      display: flex;
+      align-items: center;
+      padding: 0;
+      font-size: 0.75rem;
+      line-height: 1em;
+      height: 1.25rem;
+      
+      position: relative;
+      color: $lightGrey;
+      cursor: default;
+      min-height: 1rem;
+
+      & > span {
+        flex: 1 1 0%;
+        display: block;
+        position: relative;
+        z-index: 2;
+
+        &:not(:first-child):not(.decimal__dec) {
+          text-align: right;
+
+          @media screen and (min-width: $large) {
+            padding-left: 0.375rem;
+          }
+        }
+
+        @media screen and (max-width: ($large - 1px)) {
+          &:first-child {
+          padding: 0 0.25rem;
+          }
+          &:nth-of-type(2) {
+            display: none;
+          }
+        }
+      }
+
+      i {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+        opacity: 0.2;
+      }
+    }
+
+    &-row--sell {
+      & > span:first-child {
+        color: $red;
+      }
+      i {
+        background: $red;
+      }
+      /* &:has(~ .trade__book-row--sell:hover) {
+        opacity: 0.5;
+      } */
+      &:hover ~ .trade__book-row--sell {
+        opacity: 0.5;
+      }
+      @media screen and (max-width: ($large - 1px)) {
+        flex-direction: row-reverse;
+        i {
+          left: auto;
+          right: 0;
+        }
+
+        span {
+          text-align: right;
+          &:not(:first-child):not(.decimal__dec) {
+            text-align: left;
+          }
+        }
+      }
+    }
+
+    
+  
+    &-row--buy {
+      & > span:first-child {
+        color: $teal;
+      }
+      i {
+        background: $teal;
+      }
+      
+      &:hover ~ .trade__book-row--buy {
+        opacity: 0.5;
+      }
+    }
+
+    &-row--mine {
+      &:before {
+        position: absolute;
+        content: "";
+        display: block;
+        width: 0.1875rem;
+        left: -0.5rem;
+        top: 0.25rem;
+        bottom: 0.25rem;
+        background: $grey;
+      }
+    }
+
+    &-row--sell#{&}-row--mine {
+      &:before {
+        background-color: $red;
+      }
+    }
+  
+    &-row--buy#{&}-row--mine {
+      &:before {
+        background-color: $teal;
+      }
+    }
+
+    &-sells {
+      display: flex;
+      flex-direction: column;
+
+      @media screen and (min-width: $large) {
+        flex-direction: column-reverse;
+      }
+    }
+
+    &-sells, &-buys {
+      @media screen and (max-width: ($large - 1px)) {
+        width: 50%;
+      }
+    }
+
+    &-mid {
+      display: none;
+      align-items: center;
+      padding: 0.125rem 0 0.25rem;
+      
+      @media screen and (min-width: $large) {
+        display: flex;
+      }
+
+      h3 {
+        color: $white;
+        font-size: 1rem;
+        line-height: 1em;
+        font-weight: 500;
+      }
+
+      h4 {
+        font-size: 0.875rem;
+      }
+
+      div {
+        font-size: 0.75rem;;
+      }
+    }
+  }
+}

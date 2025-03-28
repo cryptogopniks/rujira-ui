@@ -1,0 +1,34 @@
+{
+  "name": "rujira.js",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@confio/ics23": "^0.6.8",
+    "@cosmjs/encoding": "^0.32.4",
+    "@cosmjs/json-rpc": "^0.32.4",
+    "@cosmjs/math": "^0.32.4",
+    "@cosmjs/stream": "^0.32.4",
+    "@cosmjs/utils": "^0.32.4",
+    "@keplr-wallet/types": "^0.12.151",
+    "@noble/hashes": "^1.5.0",
+    "buffer": "^6.0.3",
+    "ethers": "^6.13.4",
+    "long": "^5.2.3",
+    "readonly-date": "^1.0.0",
+    "xstream": "^11.14.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.2.0",
+    "@typescript-eslint/parser": "^8.2.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.5.4",
+    "vite": "^5.2.0",
+    "vitest": "^1.5.0"
+  }
+}

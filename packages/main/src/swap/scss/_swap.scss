@@ -1,0 +1,64 @@
+.swap {
+  &__select {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .denom-elect {
+      width: 100%;
+    }
+      
+    @media screen and (min-width: $large) {
+      width: calc(50% - 1.875rem);
+    }
+
+  }
+  
+  &__switch {
+    color: $grey;
+    background: rgba($black, 0);
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 1.375rem;
+    display: flex;
+    transition: all 0.25s;
+    margin: 0 auto 0.5rem;
+    transform: rotate(90deg);
+    
+    @media screen and (min-width: $large) {
+      transform: rotate(0deg);
+      margin: 0.5rem;
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin: auto;
+    }
+  
+    &:hover {
+      background: rgba($black, 1);
+      color: $white;
+      transform: rotate(270deg);
+      @media screen and (min-width: $large) {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__value {
+    display: inline-block;
+    margin-left: auto;
+    margin-top: 0.5rem;
+    margin-right: 1rem;
+    font-size: 0.875rem;
+    color: $grey;
+    user-select: none;
+  }
+
+  &__details {
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

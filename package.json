@@ -1,0 +1,17 @@
+{
+  "name": "rujira-monorepo",
+  "version": "0.1.0",
+  "description": "Rujira Alliance Monorepo",
+  "scripts": {
+    "test": "pnpm run -r test",
+    "docs": "pnpm run --filter rujira-docs dev",
+    "landing": "pnpm run --filter rujira-landing dev",
+    "main": "pnpm run --filter rujira-main dev",
+    "developer": "pnpm run --filter rujira-developer dev"
+  },
+  "author": "https://gitlab.com/slangdog",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  }
+}
